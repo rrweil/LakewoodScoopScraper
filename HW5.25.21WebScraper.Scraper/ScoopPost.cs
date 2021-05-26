@@ -8,6 +8,6 @@ namespace HW5._25._21WebScraper.Scraper
         public string URL { get; set; }
         public string ImageUrl { get; set; }
         public string Blurb { get; set; }
-        public int NumberOfComments { get; set; }
+        public string NumberOfComments { get; set; }
     }
 }

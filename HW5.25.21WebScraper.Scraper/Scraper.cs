@@ -17,40 +17,54 @@ namespace HW5._25._21WebScraper.Scraper
             var parser = new HtmlParser();
             var document = parser.ParseDocument(html);
             IHtmlCollection<IElement> searchResultElements = document.QuerySelectorAll(".post");
-            foreach (IElement result in searchResultElements)
+            foreach (var result in searchResultElements)
             {
-                var title = result.QuerySelector(".post.h2");
-                if (title == null)
-                {
-                    continue;
-                }
-
                 var scoopPost = new ScoopPost();
-                scoopPost.Title = title.TextContent;
-
-                var priceSpan = result.QuerySelector("span.a-offscreen");
-                if (priceSpan != null)
+                scoopPost.Title = result.QuerySelector("h2").TextContent;
+                scoopPost.Blurb = result.QuerySelector("p").TextContent.Replace("Read more ›", "");
+                scoopPost.NumberOfComments = result.QuerySelector(".backtotop").TextContent;
+                scoopPost.URL = result.QuerySelector("a").Attributes["href"].Value;
+                var image = result.QuerySelector("img");
+                if (image != null)
                 {
-                    //scoopPost.Price = double.Parse(priceSpan.TextContent.Replace("$", String.Empty));
+                    scoopPost.ImageUrl = image.Attributes["src"].Value;
                 }
-
-                var imageElement = result.QuerySelector("img.s-image");
-                if (imageElement != null)
-                {
-                    var imageSrcValue = imageElement.Attributes["src"].Value;
-                    scoopPost.ImageUrl = imageSrcValue;
-                }
-
-                var anchorTag = result.QuerySelector("a.a-link-normal.a-text-normal");
-                if (anchorTag != null)
-                {
-                    //scoopPost.LinkUrl = anchorTag.Attributes["href"].Value;
-                }
-
                 results.Add(scoopPost);
-
-
             }
+            //foreach (IElement result in searchResultElements)
+            //{
+            //    var title = result.QuerySelector("div.post.h2");
+            //    if (title == null)
+            //    {
+            //        continue;
+            //    }
+
+            //var scoopPost = new ScoopPost();
+            //scoopPost.Title = title.TextContent;
+
+            //var priceSpan = result.QuerySelector("span.a-offscreen");
+            //if (priceSpan != null)
+            //{
+            //    //scoopPost.Price = double.Parse(priceSpan.TextContent.Replace("$", String.Empty));
+            //}
+
+            //var imageElement = result.QuerySelector("img.s-image");
+            //if (imageElement != null)
+            //{
+            //    var imageSrcValue = imageElement.Attributes["src"].Value;
+            //    scoopPost.ImageUrl = imageSrcValue;
+            //}
+
+            //var anchorTag = result.QuerySelector("a.a-link-normal.a-text-normal");
+            //if (anchorTag != null)
+            //{
+            //    //scoopPost.LinkUrl = anchorTag.Attributes["href"].Value;
+            //}
+
+            //    results.Add(scoopPost);
+
+
+            //}
 
             return results;
         }

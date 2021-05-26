@@ -16,7 +16,7 @@ namespace HW5._25._21WebScraper.Web.Controllers
         [Route("scrape")]
         public List<ScoopPost> Scrape()
         {
-            return Scraper.ScrapeLakewoodScoop();
+            return HW5._25._21WebScraper.Scraper.Scraper.ScrapeLakewoodScoop();
         }
     }
 }
